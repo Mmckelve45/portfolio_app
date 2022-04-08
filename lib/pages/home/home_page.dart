@@ -18,7 +18,8 @@ class HomePage extends StatelessWidget {
           ),
           backgroundColor: Colors.black,
           onPressed: () {
-            Share.share("Check out Matt's Flutter Portfolio https://my-portfolio-c3ae5.firebaseapp.com");
+            Share.share(
+                "Check out Matt's Flutter Portfolio https://my-portfolio-c3ae5.firebaseapp.com");
           }),
       body: SafeArea(
         child: SizedBox(
