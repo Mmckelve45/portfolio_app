@@ -64,11 +64,13 @@ class ProjectCard extends StatelessWidget {
             Expanded(
               child: Hero(
                 tag: project.name,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15.0),
-                  child: Image.network(
-                    project.imageUrl,
-                    fit: BoxFit.cover,
+                child: Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: Image.network(
+                      project.imageUrl,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

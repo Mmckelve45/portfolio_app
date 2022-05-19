@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_app/models/project.dart';
+import 'package:portfolio_app/pages/project/video_demo.dart';
+import 'package:portfolio_app/pages/project/video_screen.dart';
 import 'package:portfolio_app/responsive.dart';
 
 class ProjectDetail extends StatelessWidget {
@@ -49,24 +51,26 @@ class ProjectDetail extends StatelessWidget {
                     const SizedBox(
                       height: 25,
                     ),
-                    Hero(
-                      tag: project.name,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15.0),
-                        child: Responsive(
-                          mobile: Image.network(
-                            project.imageUrl,
-                            fit: BoxFit.cover,
-                          ),
-                          tablet: Image.network(
-                            project.imageUrl,
-                            fit: BoxFit.cover,
-                          ),
-                          desktop: SizedBox(
-                            height: 350,
-                            child: Image.network(
+                    Center(
+                      child: Hero(
+                        tag: project.name,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15.0),
+                          child: Responsive(
+                            mobile: Image.network(
                               project.imageUrl,
                               fit: BoxFit.cover,
+                            ),
+                            tablet: Image.network(
+                              project.imageUrl,
+                              fit: BoxFit.cover,
+                            ),
+                            desktop: SizedBox(
+                              height: 350,
+                              child: Image.network(
+                                project.imageUrl,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
@@ -78,37 +82,61 @@ class ProjectDetail extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                              "Technologies",
-                              style:
-                                  TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            HorizontalTechView(
-                              techList: project.technologiesUsed ?? [],
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            const Text(
-                              "Description",
-                              style:
-                                  TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              project.description,
-                              style: const TextStyle(fontSize: 16, color: Colors.black),
-                            ),
-                      ],
-                  ),
+                            "Technologies",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          HorizontalTechView(
+                            techList: project.technologiesUsed ?? [],
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          const Text(
+                            "Description",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            project.description,
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.black),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        // send it the video from the model
+                                        builder: (_) => VideoApp()
+                                    )
+                                );
+                              },
+                              child: Text("See Video")),
+                          const Text(
+                            "App Images",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          project.appImages != []
+                              ? appImages(project.appImages)
+                              : Container()
+                        ],
+                      ),
                     ),
-                  ]
-              ),
-                  
+                  ]),
             ),
           ),
         ),
@@ -116,9 +144,6 @@ class ProjectDetail extends StatelessWidget {
     );
   }
 }
-
-
-
 
 class HorizontalTechView extends StatelessWidget {
   final List<String> techList;
@@ -136,7 +161,7 @@ class HorizontalTechView extends StatelessWidget {
         itemBuilder: (context, index) {
           return Container(
               alignment: Alignment.center,
-                            padding: const EdgeInsets.only(right: 15.0, left: 15.0),
+              padding: const EdgeInsets.only(right: 15.0, left: 15.0),
               margin: const EdgeInsets.only(right: 15.0),
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.black),
@@ -148,4 +173,29 @@ class HorizontalTechView extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget appImages(List<String>? imgList) {
+  return GridView.builder(
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 5,
+        crossAxisSpacing: 5.0,
+        mainAxisSpacing: 5.0,
+      ),
+      itemCount: imgList!.length,
+      itemBuilder: (context, index) {
+        return Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.only(right: 15.0, left: 15.0),
+            margin: const EdgeInsets.only(right: 15.0),
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.white),
+            child: Image.network(
+              imgList[index],
+              fit: BoxFit.cover,
+            ));
+      });
 }
